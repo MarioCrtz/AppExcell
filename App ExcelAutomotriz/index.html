@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Automotriz - Portal de Gestión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="login-header">
+                <h1> Excel Automotriz</h1>
+                <p>Portal de Gestión de Tareas</p>
+            </div>
+            <div class="login-box">
+                <h2>Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Usuario:</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rol:</label>
+                        <select id="role" required>
+                            <option value="">Seleccione un rol</option>
+                            <option value="admin">Administrador</option>
+                            <option value="motorista">Motorista</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+                <div class="login-help">
+                    <p><strong>Credenciales de prueba:</strong></p>
+                    <p>Admin: admin / 1234</p>
+                    <p>Motoristas: Juan Pérez, María González, Carlos Rodríguez, Ana Martínez, Luis Hernández / 1234</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Administrador -->
+    <div id="adminScreen" class="screen">
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>🚗 Excel Automotriz - Panel Administrador</h1>
+                <div class="nav-right">
+                    <span id="adminUsername" class="username"></span>
+                    <button id="logoutBtnAdmin" class="btn btn-secondary">Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="main-content">
+                <!-- Formulario de Asignación de Tareas -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📝 Asignación de Tareas</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="taskForm">
+                            <div class="form-group">
+                                <label for="taskName">Tarea: *</label>
+                                <input type="text" id="taskName" required placeholder="Ej: Entrega de documentos">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="motorista">Motorista Asignado: *</label>
+                                <select id="motorista" required>
+                                    <option value="">Seleccione un motorista</option>
+                                    <option value="Juan Pérez">Juan Pérez</option>
+                                    <option value="María González">María González</option>
+                                    <option value="Carlos Rodríguez">Carlos Rodríguez</option>
+                                    <option value="Ana Martínez">Ana Martínez</option>
+                                    <option value="Luis Hernández">Luis Hernández</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskDate">Fecha: *</label>
+                                <input type="date" id="taskDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskDescription">Detalle o Descripción: *</label>
+                                <textarea id="taskDescription" rows="4" required placeholder="Describa los detalles de la tarea..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Asignar Tarea</button>
+                                <button type="reset" class="btn btn-secondary">Limpiar</button>
+                            </div>
+                            <div id="formMessage" class="success-message"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Lista de Tareas Asignadas -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📋 Tareas Asignadas</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="filter-section">
+                            <label for="filterMotorista">Filtrar por motorista:</label>
+                            <select id="filterMotorista">
+                                <option value="">Todos</option>
+                                <option value="Juan Pérez">Juan Pérez</option>
+                                <option value="María González">María González</option>
+                                <option value="Carlos Rodríguez">Carlos Rodríguez</option>
+                                <option value="Ana Martínez">Ana Martínez</option>
+                                <option value="Luis Hernández">Luis Hernández</option>
+                            </select>
+                        </div>
+                        <div class="filter-section">
+                            <label for="filterDateStart">Desde:</label>
+                            <input type="date" id="filterDateStart">
+                        
+                            <label for="filterDateEnd">Hasta:</label>
+                            <input type="date" id="filterDateEnd">
+                        
+                            <button class="btn btn-primary" id="clearFilters">Limpiar filtros</button>
+                        </div>
+                        <div id="tasksList" class="tasks-list">
+                            <p class="empty-state">No hay tareas asignadas aún</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Motorista -->
+    <div id="motoristaScreen" class="screen">
+        <nav class="navbar navbar-motorista">
+            <div class="nav-content">
+                <h1>🚗 Excel Automotriz - Panel Motorista</h1>
+                <div class="nav-right">
+                    <span id="motoristaUsername" class="username"></span>
+                    <button id="logoutBtnMotorista" class="btn btn-secondary">Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Resumen de Tareas -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Asignaciones</h2>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card stat-todo">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statTodo">0</div>
+                            <div class="stat-label">Por hacer</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-progress">
+                        <div class="stat-icon">⚙️</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statProgress">0</div>
+                            <div class="stat-label">En proceso</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-done">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statDone">0</div>
+                            <div class="stat-label">Finalizadas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtro de Estado -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Mis Tareas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filter-section">
+                        <label for="filterStatus">Filtrar por estado:</label>
+                        <select id="filterStatus">
+                            <option value="">Todas</option>
+                            <option value="Por hacer">Por hacer</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="Finalizada">Finalizada</option>
+                        </select>
+                    </div>
+                    <div id="motoristaTasksList" class="tasks-list">
+                        <p class="empty-state">No tienes tareas asignadas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para Finalizar Tarea -->
+            <div id="finishModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>✅ Finalizar Tarea</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="modalTaskName"></h3>
+                        <form id="finishTaskForm">
+                            <div class="form-group">
+                                <label for="taskComment">Comentario (obligatorio): *</label>
+                                <textarea id="taskComment" rows="4" required placeholder="Describe cómo completaste la tarea, observaciones, etc."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Finalizar Tarea</button>
+                                <button type="button" class="btn btn-secondary cancel-modal">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p id="confirmMessage"></p>
+            <div class="modal-actions">
+            <button id="confirmYes" class="btn btn-success">Sí</button>
+            <button id="confirmNo" class="btn btn-danger">No</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

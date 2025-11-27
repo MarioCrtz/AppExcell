@@ -4,7 +4,8 @@ let currentUser = null;
 let currentTaskId = null;
 
 // URL del backend
-const API_BASE = 'http://localhost:3000';
+//const API_BASE = 'http://localhost:3000';
+const API_URL = "";
 
 // Elementos del DOM - Login
 const loginScreen = document.getElementById('loginScreen');

@@ -4,11 +4,11 @@ const path = require('path');
 
 // Servir frontend
 app.use(express.static(path.join(__dirname, "..")));
+const path = require('path');
 
 const cors = require('cors');
 const fs = require('fs');
 const ExcelJS = require('exceljs');
-const path = require('path');
 
 const app = express();
 const PORT = 3000;
